@@ -1,13 +1,13 @@
-package Nhom5_QLMH_API;
+package com.qlmh.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Nhom5QlmhApiApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Nhom5QlmhApiApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }
