@@ -1,4 +1,5 @@
 package com.qlmh.api.Service;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,16 @@ public class FaceService {
 	public FaceDTO addNode(Integer faceId, Integer nodeId) {
 		Face face = faceRepository.findById(faceId).get();
 		Node node = nodeRepository.findById(nodeId).get();
+		
+		List<FaceNode> faceNodes = faceNodeRepository.findAll();
+		for (FaceNode faceNode : faceNodes) {
+			Face f = faceNode.getFace();
+			if(f.getId() == faceId) {
+				if(faceNode.getNode().getId() == nodeId) {
+					return new FaceDTO(f);
+				}
+			}
+		}
 		
 		FaceNode faceNode = new FaceNode(face, node);
 		faceNodeRepository.save(faceNode);

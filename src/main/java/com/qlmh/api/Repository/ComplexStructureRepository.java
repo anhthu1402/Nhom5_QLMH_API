@@ -7,5 +7,5 @@ import com.qlmh.api.Model.ComplexStructure;
 
 @Repository
 public interface ComplexStructureRepository extends JpaRepository<ComplexStructure, Integer>{
-
+	public ComplexStructure findByName(String name);
 }

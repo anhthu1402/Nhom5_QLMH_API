@@ -26,6 +26,7 @@ public class FloorLevel {
 	@Column(name = "name")
 	private String name;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_construction")
 	private Construction construction;
