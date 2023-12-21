@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qlmh.api.DTO.SimpleBodyDTO;
-import com.qlmh.api.Model.ComplexStructure;
 import com.qlmh.api.Model.Face;
 import com.qlmh.api.Model.SimpleBody;
 import com.qlmh.api.Repository.FaceRepository;

@@ -7,5 +7,5 @@ import com.qlmh.api.Model.ComplexBodyFace;
 
 @Repository
 public interface ComplexBodyFaceRepository extends JpaRepository<ComplexBodyFace, Integer>{
-
+	public ComplexBodyFace findByName(String name);
 }
