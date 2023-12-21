@@ -7,5 +7,5 @@ import com.qlmh.api.Model.SimpleBody;
 
 @Repository
 public interface SimpleBodyRepository extends JpaRepository<SimpleBody, Integer>{
-
+	public SimpleBody findByName(String name);
 }

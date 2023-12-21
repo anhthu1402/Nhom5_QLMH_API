@@ -1,5 +1,7 @@
 package com.qlmh.api.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,7 @@ public class SimpleBody {
 	@Column(name = "color")
 	private String color;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_face")
 	private Face face;
