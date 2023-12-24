@@ -1,10 +1,12 @@
 package com.qlmh.api.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qlmh.api.DTO.ComplexBodyDTO;
-import com.qlmh.api.DTO.ComplexBodyFaceDTO;
 import com.qlmh.api.Model.ComplexBody;
 import com.qlmh.api.Model.ComplexBodyFace;
 import com.qlmh.api.Model.Face;
@@ -35,20 +37,17 @@ public class ComplexBodyService {
 		return complexBodyRepository.save(complexBody);
 	}
 	
-	// add component(complex body face)
-	public ComplexBodyDTO addComponent(Integer compBodyId, ComplexBodyFace complexBodyFace, Integer faceId) {
-		ComplexBody complexBody = complexBodyRepository.findById(compBodyId).get();
-		Face face = faceRepository.findById(faceId).get();
-		ComplexBodyFace complexBodyFace2 = complexBodyFaceRepository.findByName(complexBodyFace.getName().trim());
-		if(complexBodyFace2 != null) {
-			ComplexBody complexBody2 = complexBodyFace2.getComplexBody();
-			if(complexBody2.getId() == compBodyId) {
-				return new ComplexBodyDTO(complexBody2);
-			}
+	// get all
+	public List<ComplexBody> getAllComplexBodies(){
+		return complexBodyRepository.findAll();
+	}
+	
+	// get by id
+	public ComplexBodyDTO getById(Integer id) {
+		Optional<ComplexBody> optional = complexBodyRepository.findById(id);
+		if(optional.isPresent()) {
+			return new ComplexBodyDTO(optional.get());
 		}
-		complexBodyFace.setFace(face);
-		complexBodyFace.setComplexBody(complexBody);
-		complexBodyFaceRepository.save(complexBodyFace);
-		return new ComplexBodyDTO(complexBody);
+		return null;
 	}
 }

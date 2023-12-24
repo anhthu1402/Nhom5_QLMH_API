@@ -19,15 +19,6 @@ public class ComplexBodyFace {
 	@Column(name = "id")
 	private Integer id;
 	
-	@Column(name = "name")
-	private String name;
-	
-	@Column(name = "height")
-	private Double height;
-	
-	@Column(name = "color")
-	private String color;
-	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_face")
@@ -35,11 +26,16 @@ public class ComplexBodyFace {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "id_complex_body")
-	private ComplexBody complexBody;
+	@JoinColumn(name = "id_complex_body_prop")
+	private ComplexBodyProp complexBodyProp;
 	
 	public ComplexBodyFace() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public ComplexBodyFace(ComplexBodyProp complexBodyProp, Face face) {
+		this.face = face;
+		this.complexBodyProp = complexBodyProp;
 	}
 
 	public Integer getId() {
@@ -50,28 +46,12 @@ public class ComplexBodyFace {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public ComplexBodyProp getComplexBodyProp() {
+		return complexBodyProp;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Double getHeight() {
-		return height;
-	}
-
-	public void setHeight(Double height) {
-		this.height = height;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
+	public void setComplexBodyProp(ComplexBodyProp complexBodyProp) {
+		this.complexBodyProp = complexBodyProp;
 	}
 
 	public Face getFace() {
@@ -82,11 +62,4 @@ public class ComplexBodyFace {
 		this.face = face;
 	}
 
-	public ComplexBody getComplexBody() {
-		return complexBody;
-	}
-
-	public void setComplexBody(ComplexBody complexBody) {
-		this.complexBody = complexBody;
-	}
 }

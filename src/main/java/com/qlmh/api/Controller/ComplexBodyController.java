@@ -1,5 +1,7 @@
 package com.qlmh.api.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +28,15 @@ public class ComplexBodyController {
 		return complexBodyService.createComplexBody(complexBody);
 	}
 	
-	// add component
-	@RequestMapping(value = "/{comp-body-id}/faces/{face-id}", method = RequestMethod.PUT)
-	public ComplexBodyDTO addComponent(@PathVariable(value = "comp-body-id") Integer compBodyId, @RequestBody ComplexBodyFace complexBodyFace, @PathVariable(value = "face-id") Integer faceId) {
-		return complexBodyService.addComponent(compBodyId, complexBodyFace, faceId);
+	// get all
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public List<ComplexBody> getAllComplexBodies(){
+		return complexBodyService.getAllComplexBodies();
+	}
+	
+	// get by id
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ComplexBodyDTO getById(@PathVariable(value = "id") Integer id) {
+		return complexBodyService.getById(id);
 	}
 }
