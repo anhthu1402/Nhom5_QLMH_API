@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.qlmh.api.Exception.*;
 import com.qlmh.api.DTO.*;
 import com.qlmh.api.Model.*;
 import com.qlmh.api.Repository.*;
@@ -25,9 +24,9 @@ public class SimpleStructureService {
 	
 	// create
 	public SimpleStructure create(SimpleStructureDTO simpleStructure) {
-		SimpleStructure search = simpleStructureRepository.findByName(simpleStructure.getName());
+		SimpleStructure search = simpleStructureRepository.findByName(simpleStructure.getName().trim());
 		
-		if (search != null) {
+		if (search == null) {
 			Face face = faceRepository.findById(simpleStructure.getFaceId()).get();
 			FloorLevel floor = floorLevelRepository.findById(simpleStructure.getFloorLevelId()).get();
 			
@@ -39,39 +38,45 @@ public class SimpleStructureService {
 				result.setFace(face);
 				result.setFloorLevel(floor);
 				
-				return simpleStructureRepository.save(result);
+				simpleStructureRepository.save(result);
+				return result;
 			} else {
-				throw new CustomValidationException("Không tìm thấy face hoặc floor level tương ứng!");
+				return null;
 			}
-		} else {
-			throw new CustomValidationException("Tên của kiến trúc đơn giản " + simpleStructure.getName() + " đã tồn tại!");
 		}
+		return null;
 	}
 	
 	//read all
-	public List<SimpleStructure> getAllSimpleStructure() {
-		return simpleStructureRepository.findAll();
+	public List<SimpleStructureResponseDTO> getAll() {
+		List<SimpleStructureResponseDTO> result = new ArrayList<SimpleStructureResponseDTO>();
+		List<SimpleStructure> listStructures = simpleStructureRepository.findAll();
+		
+		for (SimpleStructure s: listStructures) {
+			result.add(new SimpleStructureResponseDTO(s));
+		}
+		
+		return result;
 	}
 	
 	//read by id
-	public SimpleStructure getSimpleStructureById(Integer id) {
-		SimpleStructure result = simpleStructureRepository.findById(id).get();
+	public SimpleStructureResponseDTO getById(Integer id) {
+		Optional<SimpleStructure> result = simpleStructureRepository.findById(id);
 		
-		if (result != null) {
-			return result;
-		} else {
-			throw new CustomValidationException("Không tồn tại kiến trúc đơn giản có ID = " + id);
+		if (result.isPresent()) {
+			return new SimpleStructureResponseDTO(result.get());
 		}
+		return null;
 	}
 	
 	//find all by floorlevel
-	public List<SimpleStructure> findAllSimpleStructureByFloorLevel(Integer floorID) {
+	public List<SimpleStructureResponseDTO> getAllByFloorID(Integer floorID) {
 		List<SimpleStructure> search = simpleStructureRepository.findAll();
-		List<SimpleStructure> result = new ArrayList<SimpleStructure>();
+		List<SimpleStructureResponseDTO> result = new ArrayList<SimpleStructureResponseDTO>();
 		
 		for (SimpleStructure ss: search) {
 			if (ss.getFloorLevel().getId() == floorID) {
-				result.add(ss);
+				result.add(new SimpleStructureResponseDTO(ss));
 			}
 		}
 		
@@ -79,10 +84,10 @@ public class SimpleStructureService {
 	}
 	
 	//delete
-	public void deleteSimpleStructure(Integer id) {
+	public void delete(Integer id) {
 		Optional<SimpleStructure> result = simpleStructureRepository.findById(id);
-		if (result.isPresent())
+		if (result.isPresent()) {
 			simpleStructureRepository.delete(result.get());
-		else throw new CustomValidationException("Không tồn tại kiến trúc đơn giản có ID = " + id);
+		}
 	}
 }

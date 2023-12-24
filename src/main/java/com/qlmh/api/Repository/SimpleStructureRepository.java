@@ -7,5 +7,5 @@ import com.qlmh.api.Model.SimpleStructure;
 
 @Repository
 public interface SimpleStructureRepository extends JpaRepository<SimpleStructure, Integer>{
-	SimpleStructure findByName(String name);
+	public SimpleStructure findByName(String name);
 }
