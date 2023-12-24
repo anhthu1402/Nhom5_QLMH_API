@@ -32,7 +32,7 @@ public class ComplexBody {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "complexBody")
-	private List<ComplexBodyFace> components = new ArrayList<ComplexBodyFace>();
+	private List<ComplexBodyProp> components = new ArrayList<ComplexBodyProp>();
 	
 	public ComplexBody() {
 		// TODO Auto-generated constructor stub
@@ -62,11 +62,11 @@ public class ComplexBody {
 		this.complexStructure = complexStructure;
 	}
 
-	public List<ComplexBodyFace> getComponents() {
+	public List<ComplexBodyProp> getComponents() {
 		return components;
 	}
 
-	public void setComponents(List<ComplexBodyFace> components) {
+	public void setComponents(List<ComplexBodyProp> components) {
 		this.components = components;
 	}
 }
