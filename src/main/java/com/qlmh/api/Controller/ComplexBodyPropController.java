@@ -50,4 +50,10 @@ public class ComplexBodyPropController {
 	public ComplexBodyPropDTO addFace(@PathVariable(value = "id") Integer id, @PathVariable(value = "face-id") Integer faceId) {
 		return complexBodyPropService.addFace(id, faceId);
 	}
+	
+	// delete
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public boolean deleteById(@PathVariable(value = "id") Integer id) {
+		return complexBodyPropService.deleteById(id);
+	}
 }

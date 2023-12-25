@@ -91,4 +91,19 @@ public class ComplexBodyPropService {
 		complexBodyPropRepository.save(complexBodyProp);
 		return new ComplexBodyPropDTO(complexBodyProp);
 	}
+	
+	// delete
+	public boolean deleteById(Integer id) {
+		Optional<ComplexBodyProp> optional = complexBodyPropRepository.findById(id);
+		if(optional.isPresent()) {
+			ComplexBodyProp complexBodyProp = optional.get();
+			List<ComplexBodyFace> faces = complexBodyProp.getFaces();
+			for (ComplexBodyFace complexBodyFace : faces) {
+				complexBodyFaceRepository.deleteById(complexBodyFace.getId());
+			}
+			complexBodyPropRepository.deleteById(id);
+			return true;
+		}
+		return false;
+	}
 }

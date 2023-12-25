@@ -75,5 +75,12 @@ public class SimpleBodyService {
 	}
 	
 	// delete 
-	
+	public boolean deleteById(Integer id) {
+		Optional<SimpleBody> optional = simpleBodyRepository.findById(id);
+		if(optional.isPresent()) {
+			simpleBodyRepository.deleteById(id);
+			return true;
+		}
+		return false;
+	}
 }

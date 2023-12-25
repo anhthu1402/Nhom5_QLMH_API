@@ -28,9 +28,21 @@ public class SimpleBodyController {
 		return simpleBodyService.create(simpleBody, faceId);
 	}
 	
+	// get by id
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public SimpleBodyDTO getById(@PathVariable(value = "id") Integer id) {
+		return simpleBodyService.getById(id);
+	}
+	
 	// get all by complex structure id
 	@RequestMapping(value = "/comp-structure/{id}", method = RequestMethod.GET)
 	public List<SimpleBodyPropDTO> getAllByCompStructure(@PathVariable(value = "id") Integer id){
 		return simpleBodyService.getAllByCompStructure(id);
+	}
+	
+	// delete
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public boolean deleteById(@PathVariable(value = "id") Integer id) {
+		return simpleBodyService.deleteById(id);
 	}
 }

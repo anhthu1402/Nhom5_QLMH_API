@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.qlmh.api.DTO.ComplexBodyDTO;
 import com.qlmh.api.Model.ComplexBody;
-import com.qlmh.api.Model.ComplexBodyFace;
 import com.qlmh.api.Model.ComplexStructure;
-import com.qlmh.api.Model.Face;
 import com.qlmh.api.Repository.ComplexBodyFaceRepository;
 import com.qlmh.api.Repository.ComplexBodyRepository;
 import com.qlmh.api.Repository.ComplexStructureRepository;
@@ -65,7 +63,6 @@ public class ComplexBodyService {
 		}
 		return result;
 	}
-	
 	
 	// get by id
 	public ComplexBodyDTO getById(Integer id) {
