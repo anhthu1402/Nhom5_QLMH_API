@@ -34,6 +34,12 @@ public class ComplexBodyController {
 		return complexBodyService.getAllComplexBodies();
 	}
 	
+	// get all by comp structure id
+	@RequestMapping(value = "/comp-structure/{id}", method = RequestMethod.GET)
+	public List<ComplexBody> getAllByCompStructure(@PathVariable(value = "id") Integer id){
+		return complexBodyService.getAllByCompStructure(id);
+	}
+	
 	// get by id
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ComplexBodyDTO getById(@PathVariable(value = "id") Integer id) {

@@ -33,6 +33,18 @@ public class ComplexBodyPropController {
 		return complexBodyPropService.getAllComplexBodyProps();
 	}
 	
+	// get complex body prop by id
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ComplexBodyPropDTO getById(@PathVariable(value = "id") Integer id) {
+		return complexBodyPropService.getById(id);
+	}
+	
+	// get all comp body id
+	@RequestMapping(value = "/comp-body/{id}", method = RequestMethod.GET)
+	public List<ComplexBodyPropDTO> getAllByCompBodyId(@PathVariable(value = "id") Integer id){
+		return complexBodyPropService.getAllByCompBodyId(id);
+	}
+	
 	// add face
 	@RequestMapping(value = "/{id}/face/{face-id}", method = RequestMethod.PUT)
 	public ComplexBodyPropDTO addFace(@PathVariable(value = "id") Integer id, @PathVariable(value = "face-id") Integer faceId) {

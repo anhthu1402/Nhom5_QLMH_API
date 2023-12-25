@@ -22,14 +22,6 @@ public class ComplexStructureService {
 	FloorLevelRepository floorLevelRepository;
 	
 	// create
-//	public ComplexStructure create(ComplexStructure complexStructure) {
-//		ComplexStructure complexStructure2 = complexStructureRepository.findByName(complexStructure.getName().trim());
-//		if(complexStructure2 != null) {
-//			return complexStructure2;
-//		}
-//		return complexStructureRepository.save(complexStructure);
-//	}
-	
 	public ComplexStructure create(ComplexStructureDTO complexStructure) {
 		ComplexStructure result = complexStructureRepository.findByName(complexStructure.getName().trim());
 		if(result != null && result.getFloorLevel().getId() == complexStructure.getFloorLevelId()) {
@@ -58,6 +50,9 @@ public class ComplexStructureService {
 			}
 		}
 		
+		if(result.isEmpty()) {
+			return null;
+		}
 		return result;
 	}
 }

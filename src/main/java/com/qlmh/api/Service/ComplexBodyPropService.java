@@ -1,5 +1,6 @@
 package com.qlmh.api.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qlmh.api.DTO.ComplexBodyPropDTO;
+import com.qlmh.api.Model.ComplexBody;
 import com.qlmh.api.Model.ComplexBodyFace;
 import com.qlmh.api.Model.ComplexBodyProp;
 import com.qlmh.api.Model.Face;
 import com.qlmh.api.Repository.ComplexBodyFaceRepository;
 import com.qlmh.api.Repository.ComplexBodyPropRepository;
+import com.qlmh.api.Repository.ComplexBodyRepository;
 import com.qlmh.api.Repository.FaceRepository;
 
 @Service
@@ -24,6 +27,9 @@ public class ComplexBodyPropService {
 	
 	@Autowired
 	ComplexBodyFaceRepository complexBodyFaceRepository;
+	
+	@Autowired 
+	ComplexBodyRepository complexBodyRepository;
 	
 	// create
 	public ComplexBodyProp create(ComplexBodyProp complexBodyProp) {
@@ -48,6 +54,23 @@ public class ComplexBodyPropService {
 			return new ComplexBodyPropDTO(optional.get());
 		}
 		return null;
+	}
+	
+	// get all by complex body id
+	public List<ComplexBodyPropDTO> getAllByCompBodyId(Integer id){
+		Optional<ComplexBody> optional = complexBodyRepository.findById(id);
+		List<ComplexBodyPropDTO> result = new ArrayList<ComplexBodyPropDTO>(); 
+		if(optional.isPresent()) {
+			ComplexBody complexBody = optional.get();
+			List<ComplexBodyProp> list = complexBody.getComponents();
+			for (ComplexBodyProp complexBodyProp : list) {
+				result.add(new ComplexBodyPropDTO(complexBodyProp));
+			}
+		}
+		if(result.isEmpty()) {
+			return null;
+		}
+		return result;
 	}
 	
 	// add face
