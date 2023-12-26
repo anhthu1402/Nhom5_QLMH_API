@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,5 +45,11 @@ public class ComplexBodyController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ComplexBodyDTO getById(@PathVariable(value = "id") Integer id) {
 		return complexBodyService.getById(id);
+	}
+	
+	//delete by id
+	@DeleteMapping(value = "/{id}")
+	public boolean deleteBody(@PathVariable(value = "id") Integer id) {
+		return complexBodyService.deleteBody(id);
 	}
 }

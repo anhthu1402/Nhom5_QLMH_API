@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.qlmh.api.DTO.ComplexBodyDTO;
 import com.qlmh.api.Model.ComplexBody;
+import com.qlmh.api.Model.ComplexBodyProp;
 import com.qlmh.api.Model.ComplexStructure;
 import com.qlmh.api.Repository.ComplexBodyFaceRepository;
+import com.qlmh.api.Repository.ComplexBodyPropRepository;
 import com.qlmh.api.Repository.ComplexBodyRepository;
 import com.qlmh.api.Repository.ComplexStructureRepository;
 import com.qlmh.api.Repository.FaceRepository;
@@ -29,6 +31,9 @@ public class ComplexBodyService {
 	@Autowired
 	ComplexStructureRepository complexStructureRepository;
 	
+	@Autowired
+	ComplexBodyPropRepository bodyPropRepository;
+	
 	// create complex body 
 	public ComplexBody createComplexBody(ComplexBody complexBody) {
 		Integer complexStructure = complexBody.getComplexStructure().getId();
@@ -46,7 +51,7 @@ public class ComplexBodyService {
 		return complexBodyRepository.findAll();
 	}
 	
-	// get all by comp strcuture id
+	// get all by comp structure id
 	public List<ComplexBody> getAllByCompStructure(Integer id){
 		Optional<ComplexStructure> optional = complexStructureRepository.findById(id);
 		List<ComplexBody> result = new ArrayList<ComplexBody>();
@@ -71,5 +76,18 @@ public class ComplexBodyService {
 			return new ComplexBodyDTO(optional.get());
 		}
 		return null;
+	}
+	
+	//delete comp body only if no prop remain
+	public boolean deleteBody(Integer id) {
+		List<ComplexBodyProp> props = bodyPropRepository.findByIdComplexBody(id);
+		
+		if (props.isEmpty()) {
+			complexBodyRepository.delete(complexBodyRepository.findById(id).get());
+			return true;
+		} else {
+			System.out.print("Cannot delete the complex body due to associated properties!");
+			return false;
+		}
 	}
 }
