@@ -83,8 +83,13 @@ public class ComplexBodyService {
 		List<ComplexBodyProp> props = bodyPropRepository.findByIdComplexBody(id);
 		
 		if (props.isEmpty()) {
-			complexBodyRepository.delete(complexBodyRepository.findById(id).get());
-			return true;
+			Optional<ComplexBody> body = complexBodyRepository.findById(id);
+			if (body.isPresent()) {
+				complexBodyRepository.delete(body.get());
+				return true;
+			}
+			return false;
+			
 		} else {
 			System.out.print("Cannot delete the complex body due to associated properties!");
 			return false;
