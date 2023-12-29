@@ -1,14 +1,12 @@
 package com.qlmh.api.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.qlmh.api.DTO.FaceDTO;
+import com.qlmh.api.DTO.FaceRequestDTO;
 import com.qlmh.api.Model.Face;
+import com.qlmh.api.Model.Node;
 import com.qlmh.api.Service.FaceService;
 
 @RestController
@@ -25,8 +23,14 @@ public class FaceConroller {
 	}
 	
 	// add node
-	@RequestMapping(value = "/{face-id}/nodes/{node-id}", method = RequestMethod.PUT)
-	public FaceDTO addNode(@PathVariable(value = "face-id") Integer faceId, @PathVariable(value = "node-id") Integer nodeId) {
-		return faceService.addNode(faceId, nodeId);
+	@RequestMapping(value = "/{face-id}/nodes", method = RequestMethod.PUT)
+	public FaceDTO addNode(@PathVariable(value = "face-id") Integer faceId, @RequestBody Node node) {
+		return faceService.addNode(faceId, node);
+	}
+	
+
+	@RequestMapping(value = "/create" , method = RequestMethod.POST)
+	public Face create(@RequestBody FaceRequestDTO nodes) {
+		return faceService.create(nodes);
 	}
 }

@@ -4,13 +4,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.qlmh.api.DTO.FaceDTO;
-import com.qlmh.api.Model.Face;
-import com.qlmh.api.Model.FaceNode;
-import com.qlmh.api.Model.Node;
-import com.qlmh.api.Repository.FaceNodeRepository;
-import com.qlmh.api.Repository.FaceRepository;
-import com.qlmh.api.Repository.NodeRepository;
+import com.qlmh.api.DTO.*;
+import com.qlmh.api.Model.*;
+import com.qlmh.api.Repository.*;
 
 @Service
 public class FaceService {
@@ -23,29 +19,42 @@ public class FaceService {
 	@Autowired
 	NodeRepository nodeRepository;
 	
+	@Autowired
+	NodeService nodeService;
+	
 	// create face
 	public Face createFace() {
 		return faceRepository.save(new Face());
 	}
 	
+	public Face create(FaceRequestDTO nodes) {
+		Face face = faceRepository.save(new Face());
+
+		for (Node n: nodes.getNodes()) {
+			faceNodeRepository.save(new FaceNode(face, nodeService.createNode(n)));
+		}
+		
+		return face;
+	}
+	
 	// add node
-	public FaceDTO addNode(Integer faceId, Integer nodeId) {
+	public FaceDTO addNode(Integer faceId, Node node) {
+		Node n = nodeService.createNode(node);
 		Face face = faceRepository.findById(faceId).get();
-		Node node = nodeRepository.findById(nodeId).get();
 		
 		List<FaceNode> faceNodes = faceNodeRepository.findAll();
 		for (FaceNode faceNode : faceNodes) {
 			Face f = faceNode.getFace();
 			if(f.getId() == faceId) {
-				if(faceNode.getNode().getId() == nodeId) {
+				if(faceNode.getNode().getId() == n.getId()) {
 					return new FaceDTO(f);
 				}
 			}
 		}
 		
-		FaceNode faceNode = new FaceNode(face, node);
+		FaceNode faceNode = new FaceNode(face, n);
 		faceNodeRepository.save(faceNode);
-		
+
 		return new FaceDTO(face);
 	}
 }
