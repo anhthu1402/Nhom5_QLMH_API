@@ -23,27 +23,30 @@ public class FaceService {
 	@Autowired
 	NodeRepository nodeRepository;
 	
+	@Autowired
+	NodeService nodeService;
+	
 	// create face
 	public Face createFace() {
 		return faceRepository.save(new Face());
 	}
 	
 	// add node
-	public FaceDTO addNode(Integer faceId, Integer nodeId) {
+	public FaceDTO addNode(Integer faceId, Node node) {
+		Node n = nodeService.createNode(node);
 		Face face = faceRepository.findById(faceId).get();
-		Node node = nodeRepository.findById(nodeId).get();
 		
 		List<FaceNode> faceNodes = faceNodeRepository.findAll();
 		for (FaceNode faceNode : faceNodes) {
 			Face f = faceNode.getFace();
 			if(f.getId() == faceId) {
-				if(faceNode.getNode().getId() == nodeId) {
+				if(faceNode.getNode().getId() == n.getId()) {
 					return new FaceDTO(f);
 				}
 			}
 		}
 		
-		FaceNode faceNode = new FaceNode(face, node);
+		FaceNode faceNode = new FaceNode(face, n);
 		faceNodeRepository.save(faceNode);
 		
 		return new FaceDTO(face);
